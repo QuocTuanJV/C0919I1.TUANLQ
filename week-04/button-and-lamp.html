@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bóng đèn và công tắc</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Lamp</td>
+        <td><input id="connect" type="button" value="Lắp Pin" onclick="connectToLamp()"></td>
+        <td><input type="button" value="Bật đèn" onclick="turnOn()"></td>
+        <td><input type="button" value="Tắt đèn" onclick="turnOff()"></td>
+    </tr>
+</table>
+<script>
+    function SwitchButton() {
+        let _status = false;
+        let _lamp;
+        this.connectToLamp = function (electricLamp) {
+           _lamp = electricLamp;
+        };
+        this.switchOff = function () {
+            // alert("Switch off button");
+            if(_lamp==undefined) {
+                _status = false;
+            } else {
+                _status = false;
+                _lamp.turnOff();
+            }
+        };
+        this.switchOn = function () {
+            if(_lamp==undefined){
+                _status = false;
+            } else {
+                _status = true;
+                _lamp.turnOn();
+            }
+        };
+        this.getStatus = function () {
+            return _status;
+        };
+        this.displayInfoSwitch = function () {
+            if(_status == true){
+                alert("Lamp is turn on");
+            } else if(_lamp==undefined && _status == false) {
+                alert("Connect electric Lamp ");
+            }
+            else
+                alert("Lamp is turn off");
+
+        }
+
+    }
+
+    function ElectricLamp() {
+        let _status;
+        this.turnOff = function () {
+            _status = false;
+        };
+        this.turnOn = function () {
+            // alert("Lamp is turn On");
+            _status = true;
+        };
+        this.displayInfoElectricLamp = function () {
+            if(_status){
+                alert("Electric Lamp is turn On");
+            }
+            else if(!_status) {
+                alert("Electric Lamp is turn Off");
+            }
+
+        }
+    }
+
+    let myLamp = new ElectricLamp();
+    let mySwitch = new SwitchButton();
+
+
+    function connectToLamp() {
+        let elementConnect = document.getElementById("connect");
+        elementConnect.disabled = true;
+        mySwitch.connectToLamp(myLamp);
+    }
+    function turnOn() {
+        mySwitch.switchOn();
+        mySwitch.displayInfoSwitch();
+        myLamp.displayInfoElectricLamp();
+    }
+    function turnOff() {
+        mySwitch.switchOff();
+        mySwitch.displayInfoSwitch();
+        myLamp.displayInfoElectricLamp();
+    }
+
+
+</script>
+
+</body>
+</html>
