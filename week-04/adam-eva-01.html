@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adam and Eva</title>
+</head>
+<body>
+<table>
+    <tr>
+        <td>Adam</td>
+        <td><input type="button" id="adam-eat" value="eat" onclick="eat(this.id)"></td>
+        <td><input type="button" id="adam-say" value="say" onclick="say(this.id)"></td>
+    </tr>
+    <tr>
+        <td>Eva</td>
+        <td><input type="button" id="eva-eat" value="eat" onclick="eat(this.id)"></td>
+        <td><input type="button" id="eva-say" value="say" onclick="say(this.id)"></td>
+    </tr>
+</table>
+<script>
+    function Human(name,gender,weight) {
+        this.name = name;
+        this.gender = gender;
+        this.weight = weight;
+
+        this.isMale = function () {
+            if(gender===true){
+                return true;
+            }
+            else
+                return false;
+        };
+        this.say = function (word) {
+            alert("I want to say: " + word);
+        };
+        this.getName = function () {
+            return this.name;
+        };
+        this.setName = function (name) {
+          this.name = name;
+        };
+        this.getWeight = function () {
+            return this.weight;
+        };
+        this.setWeight = function (weight) {
+            this.weight = weight;
+        };
+        this.setGender = function (gender) {
+            this.gender = gender;
+        };
+
+        this.increaseWeight = function () {
+            this.weight++;
+        };
+        this.decreasesWeight = function () {
+            this.weight--;
+        };
+        this.eat = function (food) {
+            if(food.getWeight()> 0){
+                food.decreasesWeight();
+                this.increaseWeight();
+            }
+            else{
+                food.displayInfo();
+            }
+
+        };
+
+        this.getInfo = function () {
+            return this.getName() + " has weight " +this.getWeight() + " kg";
+        };
+        this.displayInfo = function () {
+            alert(this.getInfo());
+        }
+
+    }
+    function Apple() {
+        this.weight = 1;
+
+        this.decrease = function () {
+            this.weight --;
+        };
+        this.getWeight = function () {
+            return this.weight;
+        };
+        this.isEmpty = function () {
+            if(this.weight < 0){
+                return true;
+            }
+            else
+                return false;
+        };
+
+        this.decreasesWeight = function () {
+            this.weight--;
+        };
+        this.isEmpty =function () {
+            if(this.weight > 0)
+                return false;
+            else return true;
+        };
+        this.getInfo = function () {
+            return "Apple has weight " +this.getWeight() + " kg"
+        };
+        this.displayInfo = function () {
+            if(this.weight > 0){
+                alert(this.getInfo());
+            }else{
+                alert("TAO DA HET!!")
+            }
+
+
+        }
+
+    }
+
+    let adam = new Human('adam',true,80);
+    let eva = new Human('eva',false,60);
+    let apple = new Apple();
+
+    function eat(clicked_id) {
+        if (clicked_id=="adam-eat"){
+            adam.eat(apple);
+            adam.displayInfo();
+            apple.displayInfo();
+        } else if(clicked_id=="eva-eat"){
+                eva.eat(apple);
+                eva.displayInfo();
+                apple.displayInfo();
+        }
+    }
+    function say(clicked_id) {
+        if (clicked_id=="adam-say"){
+            adam.say("I am Adam");
+
+        } else if(clicked_id=="eva-say"){
+            adam.say("I am Eva");
+        }
+    }
+
+
+
+
+
+
+
+</script>
+
+</body>
+</html>
