@@ -2,9 +2,94 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+<div id="enemyID"></div>
+<script>
+    function Enemy(image, top, left, size, enemyID, speedX, speedY) {
+        this.image = image;
+        this.top = top;
+        this.left = left;
+        this.size = size;
+        this.enemyID = enemyID;
+        this.speedX = speedX;
+        this.speedY = speedY;
+
+        this.moveEnemy = function () {
+            if (this.isCollistionWithWallLeftOrRight()) {
+                console.log(this.isCollistionWithWallLeftOrRight());
+                this.changeDirectionHorizontally();
+            } else if (this.isCollistionWithWallTopOrDown()) {
+                this.changeDirectionVertically();
+            }
+            this.changePosition();
+        };
+
+        this.isCollistionWithWallLeftOrRight = function () {
+            if ((this.left + this.speedX > window.innerWidth - this.size) || (this.left + this.size < 100))
+                return true;
+            else
+                return false;
+        };
+        this.isCollistionWithWallTopOrDown = function () {
+            if ((this.top + this.speedY > window.innerHeight - this.size) || (this.top + this.size < 100))
+                return true;
+            else
+                return false;
+        };
+        this.changeDirectionHorizontally = function () {
+            this.speedX = -this.speedX;
+        };
+
+        this.changeDirectionVertically = function () {
+            this.speedY = -this.speedY;
+        };
+        this.changePosition = function () {
+            this.top += this.speedY;
+            console.log(this.top);
+            this.left += this.speedX;
+            console.log(this.left);
+        }
+
+
+    }
+
+    function controllerEnemy(enemy) {
+        this.getEnemyElement = function () {
+            return `<img width=${enemy.size} height=${enemy.size} src="../images/${enemy.image}" style="top:${enemy.top}px;left:${enemy.left}px;position:absolute;"/>`;
+        };
+        this.drawEnemy = function () {
+            document.getElementById(enemy.enemyID).innerHTML = this.getEnemyElement();
+        };
+        this.move = function () {
+            enemy.moveEnemy();
+        }
+
+    }
+    function Start(controlEnemy) {
+        this.initGame = function () {
+            controlEnemy.getEnemyElement();
+            controlEnemy.drawEnemy();
+
+
+        };
+
+        this.moveEnemy = function () {
+            controlEnemy.getEnemyElement();
+            controlEnemy.drawEnemy();
+            controlEnemy.move();
+
+        }
+    }
+    let myEnemy = new Enemy("ball.jpg",300,300,200,"enemyID",50,50);
+    let ctrEnemy = new controllerEnemy(myEnemy);
+    let str = new Start(ctrEnemy);
+    str.initGame();
+    setTimeout(str.moveEnemy, 500);
+
+
+</script>
+
 </body>
 </html>

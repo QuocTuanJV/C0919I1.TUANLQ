@@ -2,9 +2,91 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
+<div id="hero"></div>
 <body>
-$END$
+<script>
+    function Hero(image, top, left, size, heroID, speed) {
+        this.image = image;
+        this.top = top;
+        this.left = left;
+        this.size = size;
+        this.heroID = heroID;
+        this.speed = speed;
+
+
+        this.moveRight = function () {
+            this.left += this.speed;
+        };
+        this.moveLeft = function () {
+            this.left -= this.speed;
+        };
+        this.moveUp = function () {
+            this.top -= this.speed;
+        };
+        this.moveDown = function () {
+            this.top += this.speed;
+        }
+    }
+
+    function gameController(hero) {
+        this.getHeroElement = function () {
+            return `<img width=${hero.size} height=${hero.size} src="../images/${hero.image}" style="top:${hero.top}px; left:${hero.left}px;position:absolute;"/>`;
+        };
+        this.drawHero = function () {
+            document.getElementById(hero.heroID).innerHTML = this.getHeroElement();
+        };
+        this.controlEventKeyboard = function (evt) {
+            const arrowUp = 38;
+            const arrowDown = 40;
+            const arrowLeft = 37;
+            const arrowRight = 39;
+            let key = evt.which;
+            switch (key) {
+                case arrowLeft:
+                    hero.moveLeft();
+                    break;
+                case arrowRight:
+                    hero.moveRight();
+                    break;
+                case arrowUp:
+                    hero.moveUp();
+                    break;
+                case arrowDown:
+                    hero.moveDown();
+                    break;
+            }
+
+        }
+
+    }
+
+    function Start(controlPlayer) {
+        this.initGame = function () {
+            controlPlayer.getHeroElement();
+            controlPlayer.drawHero();
+
+
+        };
+        this.movePlayerByKeyBoard = function (evt) {
+            controlPlayer.controlEventKeyboard(evt);
+            controlPlayer.getHeroElement();
+            controlPlayer.drawHero();
+        };
+        // this.moveEnemy = function () {
+        //
+        // }
+    }
+
+    let myHero = new Hero("ball.jpg", 100, 100, 200, "hero", 50);
+    // let myEnemy = new Enemy("ball.jpg", 200, 200, 100, "enemy", 100, 100);
+    let ctrHero = new gameController(myHero);
+    // let controllerEnemy = new controllerEnemy(myEnemy);
+    // let start = new Start(controllerHero, controllerEnemy);
+    let start = new Start(ctrHero);
+    start.initGame();
+    window.addEventListener("keydown", start.movePlayerByKeyBoard);
+</script>
 </body>
 </html>

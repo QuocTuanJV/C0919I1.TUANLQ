@@ -2,9 +2,150 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Di chuyển dối tượng sử dụng hướng đối tượng</title>
 </head>
 <body>
-$END$
+<div id="hero"></div>
+<div id="enemy"></div>
+<script>
+    function Hero(image, top, left, size, heroID, speed) {
+        this.image = image;
+        this.top = top;
+        this.left = left;
+        this.size = size;
+        this.heroID = heroID;
+        this.speed = speed;
+
+
+        this.moveRight = function () {
+            this.left += speed;
+        };
+        this.moveLeft = function () {
+            this.left -= speed;
+        };
+        this.moveUp = function () {
+            this.top -= speed;
+        };
+        this.moveDown = function () {
+            this.top += speed;
+        }
+    }
+
+    function Enemy(image, top, left, size, enemyID, speedX, speedY) {
+        this.image = image;
+        this.top = top;
+        this.left = left;
+        this.size = size;
+        this.enemyID = enemyID;
+        this.speedX = speedX;
+        this.speedY = speedY;
+
+        this.moveEnemy = function () {
+            if (this.isCollistionWithWallLeftOrRight()) {
+                this.changeDirectionHorizontally();
+            } else if (this.isCollistionWithWallTopOrDown()) {
+                this.changeDirectionVertically();
+            }
+            this.changePosition();
+        };
+
+        this.isCollistionWithWallLeftOrRight = function () {
+            if ((this.left + this.speedX > window.innerWidth - this.size) || (this.left + this.size < 100))
+                return true;
+            else
+                return false;
+        };
+        this.isCollistionWithWallTopOrDown = function () {
+            if ((this.top + this.speedY > window.innerHeight - this.size) || (this.top + this.size < 100))
+                return true;
+            else
+                return false;
+        };
+        this.changeDirectionHorizontally = function () {
+            this.speedX = -this.speedX;
+        };
+
+        this.changeDirectionVertically = function () {
+            this.speedY = -this.speedY;
+        };
+        this.changePosition = function () {
+            this.top += this.speedY;
+            this.left += this.speedX
+        }
+
+
+    }
+
+    function controllerHero(hero) {
+        this.getHeroElement = function () {
+            return `<img width=${hero.size} height=${hero.size} src="../images/${hero.image}" style="top:${hero.top}px; left:${hero.left}px;position:absolute;"/>`;
+        };
+        this.drawHero = function () {
+            document.getElementById(hero.heroID).innerHTML = this.getHeroElement();
+        };
+        this.controlEventKeyboard = function (evt) {
+            const arrowUp = 38;
+            const arrowDown = 40;
+            const arrowLeft = 37;
+            const arrowRight = 39;
+            let key = evt.which;
+            switch (key) {
+                case arrowLeft:
+                    hero.moveLeft();
+                    break;
+                case arrowRight:
+                    hero.moveRight();
+                    break;
+                case arrowUp:
+                    hero.moveUp();
+                    break;
+                case arrowDown:
+                    hero.moveDown();
+                    break;
+            }
+
+        }
+
+    }
+
+    function controllerEnemy(enemy) {
+        this.getEnemyElement = function () {
+            return `<img width=${hero.size} height=${enemy.size} src="../images/${enemy.image}" style="top:${enemy.top}px;left:${enemy.left}px;position:absolute;"/>`;
+        };
+        this.drawEnemy = function () {
+            document.getElementById(enemy.enemyID).innerHTML = this.getEnemyElement();
+        };
+    }
+
+
+    function Start(controlPlayer, controlEnemy) {
+        this.initGame = function () {
+            controlPlayer.getHeroElement();
+            controlPlayer.drawHero();
+            controlEnemy.getEnemyElement();
+            controlEnemy.drawEnemy();
+
+        };
+        this.movePlayerByKeyBoard = function (evt) {
+            controlPlayer.controlEventKeyboard(evt);
+            controlPlayer.getHeroElement();
+            controlPlayer.drawHero();
+        };
+        // this.moveEnemy = function () {
+        //
+        // }
+    }
+
+
+    let myHero = new Hero("ball.jpg", 100, 100, 200, "hero", 50);
+    let myEnemy = new Enemy("ball.jpg", 200, 200, 100, "enemy", 100, 100);
+    let controllerHero = new controllerHero(myHero);
+    let controllerEnemy = new controllerEnemy(myEnemy);
+    // let start = new Start(controllerHero, controllerEnemy);
+    let start = new Start(controllerHero);
+    start.initGame();
+    window.addEventListener("keydown", start.movePlayerByKeyBoard);
+
+</script>
 </body>
 </html>
