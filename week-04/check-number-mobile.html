@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kiểm tra đầu số Viettel</title>
+</head>
+<body>
+<script>
+    let headNumberViettel =["096","097","098","086","032","033","034","035","036","037","038","039", "03966"];
+    let numberMobile = [
+        "0865836281","0352215873","0862706187","0384459578","0867683058",
+        "0944589839","0943116139","0849797915","0835008789","0854445789",
+        "0936678522","0906029802","0789385485", "0902005507"
+    ];
+
+    alert(`Số lượng số điện thoại đầu số Viettel là ${getCountNumberViettel(headNumberViettel,numberMobile)}`);
+
+    function getCountNumberViettel(headNumberViettel,numberMobile) {
+        let count = 0;
+        for (let i = 0; i < headNumberViettel.length; i++){
+            for(let j = 0; j< numberMobile.length; j++){
+                if(isHeadNumber(headNumberViettel[i], numberMobile[j]))
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    function isHeadNumber(numberHead,numberChecked) {
+        if(numberChecked.indexOf(numberHead) === 0)
+            return true;
+        else
+            return false;
+    }
+</script>
+</body>
+</html>
